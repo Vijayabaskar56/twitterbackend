@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "G9nn2In94dcRC1xI",
+    "database": "postgres",
+    "host": "db.doeoysbmfjhppaimcttr.supabase.co",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
