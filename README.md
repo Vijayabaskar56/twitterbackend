@@ -80,7 +80,7 @@ Description : Main entity of the app,
  * likes table
  *
  * id (primary key): serial BigInt
- * post_id : BigInt
+ * post_id (foreign-key) : BigInt
  * liked-by(user_id, foreign-key) : BigInt unique
  * liked-at : timestamp
 ```
@@ -99,4 +99,31 @@ Description : Main entity of the app,
  * reply_text : text
  * reply_at : timestamp
  * parent_command_id (foreign-key): BigInt Null
+```
+
+
+### Generation migration cmd
+
+```
+User
+
+npx sequelize-cli model:generate --name User --attributes userName:String, email:String, emailVerifiedAt:Date, displayName:String, bio TEXT, 
+password:String, website:String, location:String,
+
+Post
+
+npx sequelize-cli model:generate --name Post --attributes postText: Text, postedAt: Date, userId: BigInt, repostId: BigInt, like: BigInt,
+
+FollowAction
+
+npx sequelize-cli model:generate --name FollowAction --attributes followedAt:Date,userId:BigInt,followedId:BigInt
+
+Like
+
+npx sequelize-cli model:generate --name Likes --attributes post_id:BigInt,likedBy:BigInt,likedAt:Date
+
+Comments
+
+npx sequelize-cli model:generate --name Comments --attributes postId:BigInt,userId:BigInt,content:Text,commentedAt:Date,parentCommentId:BigInt
+
 ```

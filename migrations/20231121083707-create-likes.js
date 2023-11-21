@@ -2,37 +2,31 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Posts", {
+    await queryInterface.createTable("Likes", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT,
       },
-      content: {
-        type: Sequelize.TEXT,
-      },
-      postedAt: {
-        type: Sequelize.DATE,
-      },
-      userId: {
+      postId: {
         type: Sequelize.BIGINT,
-        foreignKey: true,
+        references: {
+          model: "Posts",
+          key: "id",
+          deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
+        },
+        unique: "uniuqe_post_like",
+      },
+      likedBy: {
+        type: Sequelize.BIGINT,
         references: {
           model: "Users",
           key: "id",
         },
       },
-      repostId: {
-        type: Sequelize.BIGINT,
-        foreignKey: true,
-        references: {
-          model: "Posts",
-          key: "id",
-        },
-      },
-      like: {
-        type: Sequelize.BIGINT,
+      likedAt: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
@@ -45,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Posts");
+    await queryInterface.dropTable("Likes");
   },
 };
