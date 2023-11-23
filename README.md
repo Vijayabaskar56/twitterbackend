@@ -32,11 +32,19 @@ Description : Main entity of the app,
  * id (primary_key): auto-int BigInt
  * username (15 character): unique, string
  * email: unique, string
- * email_verified_at: timestamp
+ * password char(128): hashed
  * display_name (50 character): string
  * bio (1000 character): text
+ * bio varchar(160) : text null
+ * dateofbirth (date - above 13 years) :
  * website: url string
  * location: string
+ * profile-pic-url : url - defalut null
+ * header_pic_url : url - default null
+ * email_verified_at: timestamp
+ * auth_token varchar(128) : default null -verify length
+ * auth_session varchar(120) : default null - verify length
+ * auth_session_expiry : timestamp - default null
 ```
 
 #### Post
@@ -50,12 +58,12 @@ Description : Main entity of the app,
  * Post Table
  *
  * id (primary key): BigInt, serial
- * posttext (280 character): text
+ * content (280 character): text
  * postedAt: timestamps
- * user_id (foreign-key): BigInt
- * repost_id (foreign-key): BigInt
+ * repostId (foreign-key): BigInt
+ * updatedAt : timestamp
+ * userId (foreign-key): BigInt
  * like (foreign-key) : BigInt
- * updated_at : timestamp
 ```
 
 #### Following
@@ -101,13 +109,12 @@ Description : Main entity of the app,
  * parent_command_id (foreign-key): BigInt Null
 ```
 
-
 ### Generation migration cmd
 
 ```
 User
 
-npx sequelize-cli model:generate --name User --attributes userName:String, email:String, emailVerifiedAt:Date, displayName:String, bio TEXT, 
+npx sequelize-cli model:generate --name User --attributes userName:String, email:String, emailVerifiedAt:Date, displayName:String, bio TEXT,
 password:String, website:String, location:String,
 
 Post

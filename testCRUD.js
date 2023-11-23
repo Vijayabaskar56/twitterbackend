@@ -86,6 +86,7 @@ async function deleteData() {
   });
 }
 
-// createRecord();
-// ReadData();
-// UpdateData();
+createRecord();
+ReadData();
+UpdateData();
+deleteData();
