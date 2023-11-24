@@ -7,17 +7,16 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
       },
-      userName: {
+      username: {
         type: Sequelize.STRING,
-        unique: true,
       },
       email: {
         type: Sequelize.STRING,
       },
-      emailVerifiedAt: {
-        type: Sequelize.DATE,
+      password: {
+        type: Sequelize.STRING,
       },
       displayName: {
         type: Sequelize.STRING,
@@ -25,14 +24,35 @@ module.exports = {
       bio: {
         type: Sequelize.TEXT,
       },
-      password: {
-        type: Sequelize.STRING,
+      bioShort: {
+        type: Sequelize.TEXT,
+      },
+      dateOfBirth: {
+        type: Sequelize.DATE,
       },
       website: {
         type: Sequelize.STRING,
       },
       location: {
         type: Sequelize.STRING,
+      },
+      profilePicUrl: {
+        type: Sequelize.STRING,
+      },
+      headerPicUrl: {
+        type: Sequelize.STRING,
+      },
+      emailVerifiedAt: {
+        type: Sequelize.DATE,
+      },
+      authToken: {
+        type: Sequelize.STRING,
+      },
+      authSession: {
+        type: Sequelize.STRING,
+      },
+      authSessionExpiry: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
