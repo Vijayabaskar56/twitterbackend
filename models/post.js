@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       postedAt: DataTypes.DATE,
       userId: DataTypes.BIGINT,
       repostId: DataTypes.BIGINT,
-      like: DataTypes.BIGINT,
+      likeCount: DataTypes.BIGINT,
     },
     {
       sequelize,

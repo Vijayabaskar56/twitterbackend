@@ -24,7 +24,7 @@ const authenticateUser = async (req, res, next) => {
   try {
     const authtoken = req.headers.authorization.replace("Bearer ", "");
     const jwtPayload = jwt.verify(authtoken, process.env.jwt_salt);
-
+    console.log(jwtPayload);
     req.user = jwtPayload;
     next();
   } catch (e) {
@@ -76,13 +76,24 @@ app.post("/login", async (req, res) => {
   // jwt auth
   const accessToken = await jwt.sign(
     {
-      name: getUser.username,
+      user_id: getUser.id,
+      email: getUser.email,
+      iat: Date.now(),
     },
-    process.env.jwt_salt
+    process.env.jwt_salt,
+    {
+      expiresIn: "30d",
+    }
   );
 
+  // Set auth session expiry
+  const authSessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
+
   // success response
-  await User.update({ authToken: accessToken }, { where: { id: getUser.id } })
+  await User.update(
+    { authToken: accessToken, authSessionExpiry: authSessionExpiry },
+    { where: { id: getUser.id } }
+  )
     .then(() => {
       res.status(200).json({
         status: "Success",

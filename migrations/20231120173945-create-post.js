@@ -9,12 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT,
       },
-      content: {
-        type: Sequelize.TEXT,
-      },
-      postedAt: {
-        type: Sequelize.DATE,
-      },
       userId: {
         type: Sequelize.BIGINT,
         foreignKey: true,
@@ -23,16 +17,42 @@ module.exports = {
           key: "id",
         },
       },
+      content: {
+        type: Sequelize.TEXT,
+        validate: {
+          len: [0, 280],
+        },
+      },
+      postedAt: {
+        type: Sequelize.DATE,
+        validate: {
+          isDate: true,
+        },
+      },
       repostId: {
         type: Sequelize.BIGINT,
-        foreignKey: true,
         references: {
           model: "Posts",
           key: "id",
         },
       },
-      like: {
+      likeCount: {
         type: Sequelize.BIGINT,
+        allowNull: true,
+      },
+      replayToId: {
+        type: Sequelize.BIGINT,
+        references: {
+          model: "Posts",
+          key: "id",
+        },
+      },
+      replayedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        validate: {
+          isDate: true,
+        },
       },
       createdAt: {
         allowNull: false,

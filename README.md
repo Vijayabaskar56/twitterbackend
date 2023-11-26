@@ -9,7 +9,6 @@
 - User
 - Post
 - Followings
-- comments
 
 ### Relationship
 
@@ -32,19 +31,18 @@ Description : Main entity of the app,
  * id (primary_key): auto-int BigInt
  * username (15 character): unique, string
  * email: unique, string
- * password char(128): hashed
+ * password varchar(128): hashed
  * display_name (50 character): string
- * bio (1000 character): text
- * bio varchar(160) : text null
- * dateofbirth (date - above 13 years) :
- * website: url string
+ * bio (260 character): text
+ * dateofBirth (date - above 13 years) :
+ * website: string
  * location: string
- * profile-pic-url : url - defalut null
- * header_pic_url : url - default null
- * email_verified_at: timestamp
- * auth_token varchar(128) : default null -verify length
- * auth_session varchar(120) : default null - verify length
- * auth_session_expiry : timestamp - default null
+ * profilePicUrl : url defalut null
+ * headerPicUrl : url default null
+ * emailVerified_at: timestamp
+ * authToken varchar(256) : default null verify length
+ * authSession varchar(256) : default null  verify length
+ * authSession_expiry : timestamp  default null
 ```
 
 #### Post
@@ -60,10 +58,12 @@ Description : Main entity of the app,
  * id (primary key): BigInt, serial
  * content (280 character): text
  * postedAt: timestamps
- * repostId (foreign-key): BigInt
+ * repostId (foreign-key): BigInt null
  * updatedAt : timestamp
  * userId (foreign-key): BigInt
- * like (foreign-key) : BigInt
+ * likeCount (foreign-key) : BigInt
+  * reply_to_id (foreign-key): BigInt // field for reply feature
+ * replied_at: timestamp // new field for reply timing
 ```
 
 #### Following
@@ -72,12 +72,13 @@ Description : Main entity of the app,
 - this table can be user for both follower's and following
 
 ```
- * FollowAction
+ * FollowActionor your
  *
  * id (primary key): serials, BigInt
- * followed_at : timestamp,
- * user_id (foreign-key) : BigInt unique
- * followed_id (foreign-key) : BigInt unique
+ * userId (foreign-key) : BigInt unique
+ * followedId (foreign-key) : BigInt unique
+ * followerdById : BigInt unique
+ * followedAt : timestamp,
 ```
 
 #### likes
@@ -89,25 +90,25 @@ Description : Main entity of the app,
  *
  * id (primary key): serial BigInt
  * post_id (foreign-key) : BigInt
- * liked-by(user_id, foreign-key) : BigInt unique
- * liked-at : timestamp
+ * likedBy (user_id, foreign-key) : BigInt unique
+ * likedAt : timestamp
 ```
 
-#### Comments
+<!-- #### Comments
 
 - parent_command_id is referenceing the reply table itself to make the thread like conversatins
-- post_id is unique to ensure that comments always belong to the post only and not the other commands
+- post_id is unique to ensure that comments always belong to the post only and not the other commands -->
 
-```
+<!-- ```
  * reply Table
  *
  * id (primary key): BigInt, serial
  * post_id (foreign_key): BigInt unique
  * user_Id (foreign-key): BigInt
- * reply_text : text
- * reply_at : timestamp
- * parent_command_id (foreign-key): BigInt Null
-```
+ * replyText : text
+ * replyAt : timestamp
+ * parentCommand_id (foreign-key): BigInt Null
+``` -->
 
 ### Generation migration cmd
 
