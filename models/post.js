@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.BIGINT,
       repostId: DataTypes.BIGINT,
       likeCount: DataTypes.BIGINT,
+      replayToId: DataTypes.BIGINT,
+      replayedAt: DataTypes.DATE,
     },
     {
       sequelize,

@@ -21,7 +21,7 @@ module.exports = {
         unique: true,
       },
       password: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.TEXT,
       },
       displayName: {
         type: Sequelize.STRING(50),
@@ -32,7 +32,6 @@ module.exports = {
       },
       bio: {
         type: Sequelize.TEXT,
-        allowNull: false,
         validate: {
           len: [0, 250],
         },
