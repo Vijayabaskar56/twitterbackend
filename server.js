@@ -1,5 +1,13 @@
-require("express-async-errors");
 require("dotenv").config();
+const config = require("./config/config.json");
+
+config.development.username = process.env.DEV_USERNAME;
+config.development.password = process.env.DEV_PASSWORD;
+config.development.database = process.env.DEV_DATABASE;
+config.development.host = process.env.DEV_HOST;
+console.log(process.env.DEV_USERNAME);
+
+require("express-async-errors");
 const express = require("express");
 const cors = require("cors");
 const db = require("./models/index.js");
