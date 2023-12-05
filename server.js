@@ -5,7 +5,6 @@ config.development.username = process.env.DEV_USERNAME;
 config.development.password = process.env.DEV_PASSWORD;
 config.development.database = process.env.DEV_DATABASE;
 config.development.host = process.env.DEV_HOST;
-console.log(process.env.DEV_USERNAME);
 
 require("express-async-errors");
 const express = require("express");
@@ -28,8 +27,13 @@ const {
   postTweet,
   repostTweet,
   replayTweets,
+  editProfile,
+  followAction,
+  likePost,
+  getUser,
 } = require("./controllers/index.js");
 const feed = require("./controllers/tweetsController/feed.js");
+const isAuth = require("./utils.js");
 
 const corsOptions = {
   origin: "http://localhost:5173" || "*",
@@ -47,10 +51,13 @@ app.post("/password", password(User, bcrpyt));
 app.post("/verificationCode", verificationCode(User));
 app.post("/login", login(User, bcrpyt));
 app.post("/posts", postTweet(Post, Likes));
-app.post("/posts/:id/reposts", repostTweet(Post));
-app.post("/posts/:id/replies", replayTweets(Post));
-app.get("/feed", feed(Post, Op));
-app.post("/user", async (res, req) => {});
+app.post("/posts/:id/reposts", isAuth, repostTweet(Post));
+app.post("/posts/:id/replies", isAuth, replayTweets(Post));
+app.get("/feed", isAuth, feed(Post, User, Likes, Op));
+app.get("/users", isAuth, getUser(User, FollowAction));
+app.post("/editProfile", isAuth, editProfile(User));
+app.post("/followAction", followAction(FollowAction));
+app.post("/like", likePost(Likes));
 app.use(errorHandler);
 
 app.listen(3000, () => {

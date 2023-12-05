@@ -31,9 +31,9 @@ const password = (User, bcrpyt) => {
       ).then(
         res.status(200).json({
           status: "Success",
-          message: "Account Created Successfully",
-          authToken: authToken,
-          userId: userInfo,
+          message: "User Created sucessfully",
+          accessToken: authToken,
+          userid: getUser.id,
         })
       );
     } catch (err) {

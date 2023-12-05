@@ -8,6 +8,10 @@ const postTweet = require("./tweetsController/postTweeet");
 const repostTweet = require("./tweetsController/repostTweet");
 const replayTweets = require("./tweetsController/replayTweets");
 const feed = require("./tweetsController/feed");
+const editProfile = require("./users/editProfile");
+const followAction = require("./users/followAction");
+const likePost = require("./users/likePost");
+const getUser = require("./users/getUser");
 
 const index = {
   registeration,
@@ -20,6 +24,10 @@ const index = {
   repostTweet,
   replayTweets,
   feed,
+  editProfile,
+  followAction,
+  likePost,
+  getUser,
 };
 
 module.exports = index;

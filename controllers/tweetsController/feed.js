@@ -1,10 +1,26 @@
-const feed = (Post, Op) => {
+const { sequelize } = require("../../models");
+
+const feed = (Post, User, Likes, Op) => {
   return async (req, res) => {
+    // const { user } = req;
     const tweets = await Post.findAll({
       where: { content: { [Op.ne]: null } },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["username"],
+        },
+        {
+          model: Likes,
+          as: "likes",
+          attributes: [[sequelize.fn("COUNT", "likes.id"), "likesCount"]],
+        },
+      ],
+      group: ["Post.id", "user.id", "likes.id"],
     });
-    console.log(tweets);
-    res.status(200).json({ status: "success", data: { tweets: tweets } });
+
+    res.status(200).json(tweets);
   };
 };
 

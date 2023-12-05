@@ -9,6 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Likes.belongsTo(models.Post, {
+        foreignKey: "postId",
+        as: "likes",
+      });
+
+      Likes.belongsTo(models.User, {
+        foreignKey: "likedBy",
+        as: "user",
+      });
+    }
+    static async countLikesForPost(postId) {
+      return await this.count({
+        where: {
+          postId: postId,
+        },
+      });
     }
   }
   Likes.init(

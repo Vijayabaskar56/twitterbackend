@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const generateToken = ({ id, email }) => {
   return jwt.sign(
@@ -14,18 +15,25 @@ const generateToken = ({ id, email }) => {
   );
 };
 
-// const authenticateUser = async (req, res, next) => {
-//   try {
-//     const authtoken = req.headers.authorization.replace("Bearer ", "");
-//     const jwtPayload = jwt.verify(authtoken, process.env.jwt_salt);
-//     console.log(jwtPayload);
-//     req.user = jwtPayload;
-//     next();
-//   } catch (e) {
-//     res.status(401).json({ status: "failed", message: "unauthorized" });
-//     return;
-//   }
-// };
+const isAuth = async (req, res, next) => {
+  const authorization = req.headers.authorization;
+  if (authorization) {
+    const token = authorization.slice(7, authorization.length);
+    console.log(token);
+    jwt.verify(token, process.env.jwt_salt, (err, decode) => {
+      if (err) {
+        console.log(err);
+        res.status(401).json({ message: "UN Authorized" });
+      } else {
+        req.user = decode;
+        console.log(decode, req.user);
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: "Token Not Found" });
+  }
+};
 
-module.exports = generateToken;
-// module.exports = authenticateUser;
+// module.exports = generateToken;
+module.exports = isAuth;

@@ -14,7 +14,6 @@ const login = (User, bcrpyt) => {
 
     // jwt auth
     const accessToken = generateToken(getUser);
-
     // Set auth session expiry
     const authSessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
 
@@ -28,6 +27,7 @@ const login = (User, bcrpyt) => {
           status: "Success",
           message: "User Loged in sucessfully",
           accessToken: accessToken,
+          userid: getUser.id,
         });
       })
       .catch((error) => {
