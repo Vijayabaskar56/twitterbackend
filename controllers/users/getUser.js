@@ -43,6 +43,7 @@ const getUser = (User, FollowAction) => {
       id: getuser.id,
       username: getuser.username,
       email: getuser.email,
+      displayName: getuser.displayName,
       bio: getuser.bio,
       dateofBirth: getuser.dateOfBirth,
       website: getuser.website,
@@ -51,6 +52,7 @@ const getUser = (User, FollowAction) => {
       headerPicUrl: getuser.headerPicUrl,
       follower: getuser.follower,
       following: getuser.following,
+      createdAt: getuser.createdAt,
     };
 
     if (!getuser) throw { message: "User Not Found" };

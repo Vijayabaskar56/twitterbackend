@@ -14,20 +14,20 @@ module.exports = (sequelize, DataTypes) => {
         as: "user",
       });
 
-      Post.belongsTo(models.Post, {
+      Post.hasMany(models.Post, {
         foreignKey: "repostId",
-        as: "parentPost",
+        as: "reposts",
       });
 
-      Post.belongsTo(models.Post, {
+      Post.hasMany(models.Post, {
+        foreignKey: "replayToId",
+        as: "comments",
+      });
+
+      Post.hasMany(models.Post, {
         foreignKey: "replayToId",
         as: "comment",
       });
-
-      // Post.hasMany(models.Post, {
-      //   foreignKey: "replayTOId",
-      //   as: "comment",
-      // });
 
       Post.hasMany(models.Likes, {
         foreignKey: "postId",

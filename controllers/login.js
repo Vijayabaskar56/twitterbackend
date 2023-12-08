@@ -1,4 +1,4 @@
-const generateToken = require("../utils.js");
+const generateToken = require("../handler/generateToken.js");
 const bcrpyt = require("bcrypt");
 
 const login = (User, bcrpyt) => {

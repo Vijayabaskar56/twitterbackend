@@ -1,4 +1,4 @@
-const generateToken = require("../utils");
+const generateToken = require("../handler/generateToken.js");
 
 const password = (User, bcrpyt) => {
   return async (req, res) => {
