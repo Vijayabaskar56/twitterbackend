@@ -1,11 +1,12 @@
 const likePost = (Likes) => {
   return async (req, res) => {
-    const { postId, likedBy } = req.body;
-
+    const { id } = req.params;
+    const { likedBy } = req.body;
+    console.log(id, likedBy);
     try {
       const like = await Likes.findOne({
         where: {
-          postId: postId,
+          postId: id,
           likedBy: likedBy,
         },
       });
@@ -13,7 +14,7 @@ const likePost = (Likes) => {
       if (like) {
         await Likes.destroy({
           where: {
-            postId: postId,
+            postId: id,
             likedBy: likedBy,
           },
         });
@@ -24,7 +25,7 @@ const likePost = (Likes) => {
         });
       } else {
         await Likes.create({
-          postId: postId,
+          postId: id,
           likedBy: likedBy,
           likedAt: Date.now(),
         });
@@ -37,7 +38,7 @@ const likePost = (Likes) => {
     } catch (error) {
       res.status(400).json({
         status: "error",
-        message: error,
+        message: error.message,
       });
     }
   };

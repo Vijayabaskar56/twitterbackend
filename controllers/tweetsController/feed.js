@@ -16,8 +16,13 @@ const feed = (Post, User, Likes, Op) => {
           as: "likes",
           attributes: [[sequelize.fn("COUNT", "likes.id"), "likesCount"]],
         },
+        {
+          model: Post,
+          as: "reposts",
+          attributes: [[sequelize.fn("COUNT", "reposts.id"), "repostsCount"]],
+        },
       ],
-      group: ["Post.id", "user.id", "likes.id"],
+      group: ["Post.id", "user.id", "likes.id", "reposts.id"],
     });
 
     res.status(200).json(tweets);

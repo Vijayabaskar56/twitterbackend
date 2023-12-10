@@ -65,7 +65,7 @@ app.get("/users", isAuth, getUser(User, FollowAction));
 app.post("/editProfile", isAuth, editProfile(User, FollowAction));
 app.get("/userTweets", isAuth, getUserTweets(Post, User, Likes, Op));
 app.post("/followAction", followAction(FollowAction));
-app.post("/like", likePost(Likes));
+app.post("/posts/:id/like", likePost(Likes));
 app.post("/uploadProfile/:id", upload.single("file"), async (req, res) => {
   console.log(req.file);
   const file = await fs.readFile(req.file.path);

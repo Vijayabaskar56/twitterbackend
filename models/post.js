@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "user",
       });
 
+      Post.belongsTo(models.Post, {
+        foreignKey: "repostId",
+        as: "repost",
+      });
+
       Post.hasMany(models.Post, {
         foreignKey: "repostId",
         as: "reposts",
