@@ -12,6 +12,7 @@ const editProfile = require("./users/editProfile");
 const followAction = require("./users/followAction");
 const likePost = require("./users/likePost");
 const getUser = require("./users/getUser");
+const getUserTweets = require("./users/getUserTweets");
 
 const index = {
   registeration,
@@ -28,6 +29,7 @@ const index = {
   followAction,
   likePost,
   getUser,
+  getUserTweets,
 };
 
 module.exports = index;

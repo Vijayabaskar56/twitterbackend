@@ -1,15 +1,15 @@
 const { sequelize } = require("../../models");
 
-const feed = (Post, User, Likes, Op) => {
+const getUserTweets = (Post, User, Likes, Op) => {
   return async (req, res) => {
-    // const { user } = req;
+    const { user } = req;
     const tweets = await Post.findAll({
-      where: { content: { [Op.ne]: null } },
+      where: { userId: user.user_id },
       include: [
         {
           model: User,
           as: "user",
-          attributes: ["username", "displayName"],
+          attributes: ["username"],
         },
         {
           model: Likes,
@@ -21,12 +21,19 @@ const feed = (Post, User, Likes, Op) => {
           as: "reposts",
           attributes: [[sequelize.fn("COUNT", "reposts.id"), "repostsCount"]],
         },
+        {
+          model: Post,
+          as: "comments",
+          attributes: [[sequelize.fn("COUNT", "comments"), "commentsCount"]],
+        },
       ],
-      group: ["Post.id", "user.id", "likes.id", "reposts.id"],
+      group: ["Post.id", "user.id", "likes.id", "reposts.id", "comments.id"],
     });
+
+    if (!tweets) throw "fetch User tweet failed";
 
     res.status(200).json(tweets);
   };
 };
 
-module.exports = feed;
+module.exports = getUserTweets;

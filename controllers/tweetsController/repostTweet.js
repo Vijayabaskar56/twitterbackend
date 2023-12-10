@@ -1,17 +1,31 @@
 const repostTweet = (Post) => {
   return async (req, res) => {
     const { id } = req.params;
-    const { userId } = req.body;
+    const { userId, type } = req.body;
 
     try {
-      await Post.create({
-        userId: userId,
-        repostId: id,
-      });
+      if (type) {
+        await Post.create({
+          userId: userId,
+          repostId: id,
+        });
 
-      res
-        .status(200)
-        .json({ status: "sucess", message: "Tweet reposted successfully" });
+        res
+          .status(200)
+          .json({ status: "sucess", message: "Tweet reposted successfully" });
+      } else {
+        await Post.destroy({
+          where: {
+            userId: userId,
+            repostId: id,
+          },
+        });
+
+        res.status(200).json({
+          status: "sucess",
+          message: "Tweet un-reposted successfully",
+        });
+      }
     } catch (error) {
       console.error(error);
       res

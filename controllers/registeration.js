@@ -26,6 +26,7 @@ const registeration = (User) => {
       try {
         await User.create({
           username,
+          displayName: username,
           email,
           dateOfBirth,
         });
