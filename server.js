@@ -3,15 +3,15 @@ const fs = require("fs").promises;
 require("dotenv").config();
 const config = require("./config/config.json");
 
+config.production.username = process.env.DEV_USERNAME;
+config.production.password = process.env.DEV_PASSWORD;
+config.production.database = process.env.DEV_DATABASE;
+config.production.host = process.env.DEV_HOST;
+
 config.development.username = process.env.DEV_USERNAME;
 config.development.password = process.env.DEV_PASSWORD;
 config.development.database = process.env.DEV_DATABASE;
 config.development.host = process.env.DEV_HOST;
-
-config.production.username = process.env.PROD_USERNAME;
-config.production.password = process.env.PROD_PASSWORD;
-config.production.database = process.env.PROD_DATABASE;
-config.production.host = process.env.PROD_HOST;
 
 const express = require("express");
 require("express-async-errors");
