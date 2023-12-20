@@ -20,7 +20,6 @@ const db = require("./models/index.js");
 const bcrpyt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
-const multer = require("multer");
 const errorHandler = require("./handler/errorHandler.js");
 const { User, Post, FollowAction, Likes, Comments } = require("./models");
 const healthcheck = require("./controllers/healthcheck.js");
@@ -44,15 +43,12 @@ const feed = require("./controllers/tweetsController/feed.js");
 const isAuth = require("./utils.js");
 
 const corsOptions = {
-  origin: "http://localhost:5173" || "*",
+  origin: process.env.CORZ_ORIGIN || "*",
   methods: ["GET", "POST", "PUT", "DELETE"], // Allow all methods
   allowedHeaders: ["Content-Type", "Authorization"], // Allow all headers
 };
 
 const app = express();
-const upload = multer({ dest: "uploads/" });
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.ANON_KEY);
 
 app.use(cors(corsOptions));
 app.use(express.json());
