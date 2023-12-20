@@ -3,7 +3,7 @@ const userDetails = (User) => {
     try {
       console.log(req.body, req.params);
       const getUser = await User.findOne({
-        where: { email: req.params.email },
+        where: { id: req.params.id },
       });
       if (!getUser) {
         return res.status(404).json({
@@ -14,7 +14,7 @@ const userDetails = (User) => {
       res.status(200).json({
         status: "Success",
         message: "User Details",
-        data: getUser,
+        users: getUser,
       });
     } catch (error) {
       console.error(error);

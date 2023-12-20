@@ -1,9 +1,9 @@
 const getUser = (User, FollowAction) => {
   return async (req, res) => {
-    const { user } = req;
-    console.log(user, req.user);
+    // console.log(req.params.id, req);
+    //TODO: refactor this code
     const getuser = await User.findOne({
-      where: { id: user.user_id },
+      where: { id: req.params.id || req.user.user_id },
       include: [
         {
           model: FollowAction,

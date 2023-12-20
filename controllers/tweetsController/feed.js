@@ -9,7 +9,7 @@ const feed = (Post, User, Likes, Op) => {
         {
           model: User,
           as: "user",
-          attributes: ["username", "displayName"],
+          attributes: ["username", "displayName", "profilePicUrl"],
         },
         {
           model: Likes,

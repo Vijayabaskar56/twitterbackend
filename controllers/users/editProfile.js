@@ -87,7 +87,7 @@ const editProfile = (User, FollowAction) => {
         headerPicUrl: getuser.headerPicUrl,
         follower: getuser.follower,
         following: getuser.following,
-        joinedDate: getuser.createdAt,
+        createdAt: getuser.createdAt,
       };
 
       res.status(200).json({

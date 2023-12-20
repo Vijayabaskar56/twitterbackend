@@ -8,6 +8,11 @@ config.development.password = process.env.DEV_PASSWORD;
 config.development.database = process.env.DEV_DATABASE;
 config.development.host = process.env.DEV_HOST;
 
+config.production.username = process.env.PROD_USERNAME;
+config.production.password = process.env.PROD_PASSWORD;
+config.production.database = process.env.PROD_DATABASE;
+config.production.host = process.env.PROD_HOST;
+
 const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
@@ -53,51 +58,29 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.get("/healthcheck", healthcheck(db));
 app.post("/registration", registeration(User));
-app.get("/getuser/:email", userDetails(User));
+app.get("/getuser/:id", userDetails(User));
 app.post("/password", password(User, bcrpyt));
 app.post("/verificationCode", verificationCode(User));
 app.post("/login", login(User, bcrpyt));
 app.post("/posts", postTweet(Post, Likes));
 app.post("/posts/:id/reposts", isAuth, repostTweet(Post));
 app.post("/posts/:id/replies", isAuth, replayTweets(Post));
-app.get("/feed", isAuth, feed(Post, User, Likes, Op));
-app.get("/users", isAuth, getUser(User, FollowAction));
+app.get("/feed", feed(Post, User, Likes, Op));
+app.get("/users/:id?", isAuth, getUser(User, FollowAction));
 app.post("/editProfile", isAuth, editProfile(User, FollowAction));
-app.get("/userTweets", isAuth, getUserTweets(Post, User, Likes, Op));
+app.get("/userTweets/:id?", isAuth, getUserTweets(Post, User, Likes));
 app.post("/followAction", followAction(FollowAction));
 app.post("/posts/:id/like", likePost(Likes));
-app.post("/uploadProfile/:id", upload.single("file"), async (req, res) => {
-  console.log(req.file);
-  const file = await fs.readFile(req.file.path);
-  const fileName = `Avatar_${req.params.id}.png`;
-  console.log(file);
-  const { data, error } = await supabase.storage
-    .from("avathars")
-    .upload(fileName, req.file.buffer, { contentType: req.file.mimetype });
-
-  if (error) {
-    return res.status(500).send(error.message);
-  } else {
-    const { publicURL, error } = supabase.storage
-      .from("avathars")
-      .getPublicUrl(fileName);
-    if (error) {
-      return res.status(500).send(error.message);
-    }
-    console.log(publicURL);
-    await User.update(
-      { profilePicUrl: publicURL },
-      { where: { username: req.id } }
-    );
-
-    res.json({
-      status: "success",
-      message: "File uploaded successfully!",
-      data: { name: fileName, url: publicURL },
-    });
-  }
-
-  // Send a response back to the client
+app.post("/uploadProfile/:id", isAuth, async (req, res) => {
+  await User.update(
+    { profilePicUrl: req.body.imageUrl },
+    { where: { id: req.params.id } }
+  );
+  console.log(req.body);
+  res.json({
+    status: "success",
+    message: "File uploaded successfully!",
+  });
 });
 
 app.use(errorHandler);
