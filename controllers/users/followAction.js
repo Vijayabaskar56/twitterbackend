@@ -1,11 +1,10 @@
 const followAction = (FollowAction) => {
   return async (req, res) => {
-    const { followerId, followedId } = req.body;
-
+    const { userId, followedId } = req.body;
     try {
       const followAction = await FollowAction.findOne({
         where: {
-          followerId: followerId,
+          followerId: userId,
           followedId: followedId,
         },
       });
@@ -13,31 +12,33 @@ const followAction = (FollowAction) => {
       if (followAction) {
         await FollowAction.destroy({
           where: {
-            followerId: followerId,
+            followerId: userId,
             followedId: followedId,
           },
         });
 
         res.status(200).json({
           status: "success",
+          followStatus: false,
           message: "Unfollowed successfully",
         });
       } else {
         await FollowAction.create({
-          followerId: followerId,
+          followerId: userId,
           followedId: followedId,
           followedAt: Date.now(),
         });
 
         res.status(200).json({
           status: "success",
+          followStatus: true,
           message: "Followed successfully",
         });
       }
     } catch (error) {
       res.status(400).json({
         status: "error",
-        message: "Follow action failed",
+        message: error.message,
       });
     }
   };

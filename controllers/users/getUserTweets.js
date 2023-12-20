@@ -1,21 +1,10 @@
 const { sequelize } = require("../../models");
 
-const getUserTweets = (Post, User, Likes, Op) => {
+const getUserTweets = (Post, User, Likes) => {
   return async (req, res) => {
-    const { user } = req;
     const tweets = await Post.findAll({
-      where: { userId: user.user_id },
+      where: { userId: req.params.id || req.user.user_id },
       include: [
-        {
-          model: User,
-          as: "user",
-          attributes: ["username"],
-        },
-        {
-          model: Likes,
-          as: "likes",
-          attributes: [[sequelize.fn("COUNT", "likes.id"), "likesCount"]],
-        },
         {
           model: Post,
           as: "reposts",
@@ -26,8 +15,19 @@ const getUserTweets = (Post, User, Likes, Op) => {
           as: "comments",
           attributes: [[sequelize.fn("COUNT", "comments"), "commentsCount"]],
         },
+        {
+          model: User,
+          as: "user",
+          attributes: ["username", "displayName", "profilePicUrl"],
+        },
+        {
+          model: Likes,
+          as: "likes",
+          attributes: [[sequelize.fn("COUNT", "likes.id"), "likesCount"]],
+        },
       ],
       group: ["Post.id", "user.id", "likes.id", "reposts.id", "comments.id"],
+      order: [["postedAt", "DESC"]],
     });
 
     if (!tweets) throw "fetch User tweet failed";
